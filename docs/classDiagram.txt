@@ -1,0 +1,134 @@
+@startuml
+
+User "0..*" -- "0..*" Skill : has
+User "0..*" -- "0..*" Godot : has
+EstragonMember "0..*" -- "1..1" CompetenceLevel
+
+Estragon "0..*" -- "1..1" Priority : has
+Todo "0..*" -- "1..1" Priority : has
+Todo "*" -- "1" ClosedState : has
+Estragon "0..1" -- "1..1" Estragon : waits for
+Godot "0..1" -- "1..*" Estragon : consists of
+
+(Estragon, User) . EstragonMember
+
+class User {
+ -id:integer
+ -email:String
+ -first_name:String
+ -last_name:String
+ -birth_date:Date
+ -password:String
+ -user_image:String
+ -created_at:Date
+ -updated_at:Date
+ +login()
+ +pwReset()
+ +hasRole()
+}
+
+class Skill {
+ -id:integer
+ -title:String
+ -body:String
+ -description:string
+ -icon_image:String
+ -created_at:Date
+ -updated_at:Date
+}
+
+class CompetenceLevel {
+    -id:integer
+    -order:int
+    -title:String
+    -description:String
+}
+
+class Godot{
+   -id:integer
+   -initiator:User
+   -members:User[]
+   -creation_date:Date
+   -due_date:Date
+   -closed_date:Date
+   -title:String
+   -description:String
+   -order:integer
+   -created_at:Date
+   -updated_at:Date
+}
+
+class EstragonMember{
+    -id:integer
+    -User_id:integer
+    -Estragon_id:integer
+    -MemberRole:String
+    -CompetenceLevel_id:int
+}
+
+class Estragon{
+ -id:integer
+ -due_date:Date
+ -closed_date:Date
+ -title:String
+ -description:String
+ -created_at:Date
+ -updated_at:Date
+}
+
+class Priority{
+ -id:integer
+ -title:String
+ -order:Enum
+}
+
+class ClosedState{
+ -id:integer
+ -title:String
+}
+
+class Todo{
+ -id:integer
+ -title:String
+ -body:Title
+ -creation_date:Date
+ -due_date:Date
+ -closed_state:String
+ -closing_comment:String
+ -active:Bool
+}
+
+
+
+@enduml
+Are the cardinalities OK?
+how to write referential integrity in plantuml syntax?
+
+active and closed_date are here by intent.
+I can set a task inactive but I dont want to mark it done,
+its only marked done(closed) if it has a closed_date(not null or in the past?)
+
+CLOSED_STATES:
+NOT(initial)
+UNTOUCHED
+PARTIALLYDONE
+COMPLETED
+--Closing without closing comment should only be possible for COMPLETED
+
+How will I concatenate Estragons to each other so they are "waterfalling"?
+
+Should there be just a softdelete or do I want to have a closed date and a deletionDate,
+and say: if deletionDate is not NULL dont consider them existent.
+Do enums still often lead to problems or is that an old tale from pre 2010 or so?
+
+If I want to have a variable amount of priorities?
+How do i restrict/constrain that down to 10max
+
+ICON: Willow Tree
+
+It seems like with eloquent I would have to handle the process of creating models(classes)
+for my app just more like designing a database than an OOP-program.
+like when an object would actually HAVE(incorporate) another object it seems to be convention
+that you already create a class thats,
+like a join-table with both concerning objects id's together as its primary key candidates
+

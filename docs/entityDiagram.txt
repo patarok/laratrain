@@ -1,0 +1,15 @@
+@startuml
+entity Godot {
+* identifying_attribute
+--
+*mandatory_attribute
+optional_attribute
+}
+
+entity Skill {
+   optional attribute
+   **optional bold attribute**
+   * **mandatory bold attribute**
+}
+
+@enduml

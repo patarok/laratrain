@@ -1,0 +1,13 @@
+/*These 3 '@tailwind'-lines are super important.
+Nothing will work without this,
+
+just writing classes in your html or template -files,
+just will not trigger any css to get written.
+Because this should take place before anything checks the templates,
+and then purges the css already written.
+While THIS DOES trigger CSS to get rendered:*/
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
