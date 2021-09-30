@@ -1,16 +1,25 @@
 @startuml
 
-User "0..*" -- "0..*" Skill : has
+Estragon "1..*" -- "1..1" Priority : has
 User "0..*" -- "0..*" Godot : has
-EstragonMember "0..*" -- "1..1" CompetenceLevel
-
-Estragon "0..*" -- "1..1" Priority : has
+SkillCompetenceLevel "0..*" -- "1..1" CompetenceLevel
 Todo "0..*" -- "1..1" Priority : has
 Todo "*" -- "1" ClosedState : has
-Estragon "0..1" -- "1..1" Estragon : waits for
+Estragon "0..1" -- "0..1" Estragon : waits for
 Godot "0..1" -- "1..*" Estragon : consists of
+Estragon "1..1" -- "1..*" Todo : has
+User "0..1" -- "1..*" SkillCompetenceLevel : has
+SkillCompetenceLevel "1..1" -- "1..*" Skill
+(Estragon, User) .. EstragonMember
 
-(Estragon, User) . EstragonMember
+class Post{
+ -id:integer
+ -title:String
+ -slug:String
+ -excerpt:String
+ -date:DateTime
+ -body:String
+}
 
 class User {
  -id:integer
@@ -22,9 +31,6 @@ class User {
  -user_image:String
  -created_at:Date
  -updated_at:Date
- +login()
- +pwReset()
- +hasRole()
 }
 
 class Skill {
@@ -42,6 +48,13 @@ class CompetenceLevel {
     -order:int
     -title:String
     -description:String
+}
+
+class SkillCompetenceLevel {
+    - id:integer
+    - user_id:integer
+    - skill_id:integer[howto -> unique to user?]
+    - competencelevel_id:integer
 }
 
 class Godot{
@@ -63,17 +76,18 @@ class EstragonMember{
     -User_id:integer
     -Estragon_id:integer
     -MemberRole:String
-    -CompetenceLevel_id:int
 }
 
 class Estragon{
  -id:integer
+ -priority_id:integer
  -due_date:Date
  -closed_date:Date
  -title:String
  -description:String
  -created_at:Date
  -updated_at:Date
+ -successor_id:integer
 }
 
 class Priority{
@@ -89,11 +103,12 @@ class ClosedState{
 
 class Todo{
  -id:integer
+ -priority_id:integer
  -title:String
  -body:Title
  -creation_date:Date
  -due_date:Date
- -closed_state:String
+ -closed_state_id:integer
  -closing_comment:String
  -active:Bool
 }
@@ -131,4 +146,11 @@ for my app just more like designing a database than an OOP-program.
 like when an object would actually HAVE(incorporate) another object it seems to be convention
 that you already create a class thats,
 like a join-table with both concerning objects id's together as its primary key candidates
+
+'CompetenceLevel als Zwischentabelle -> Skill in der Auspraegung 'X'
+Eventuell wollen wir auch die Posts behalten/integrieren um fuer jeden Sprint/Estragon dann auch Posts anlegen zu koennen,
+ um wichtige Informationen zum Fortschritt des Sprints festzuhalten.
+ Involved-Verknuepfung - um automatisch Nachrichten(welcher Art auch immer),
+  an involvierte Co-Worker zu senden,
+wenn Fortschritt od. Erkenntnisse zu dem Estragon gepostet werden.
 
