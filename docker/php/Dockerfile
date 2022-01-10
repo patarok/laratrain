@@ -17,6 +17,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Utils
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    iputils-ping \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Intl Library
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
   libicu-dev \

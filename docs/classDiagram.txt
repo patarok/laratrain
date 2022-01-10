@@ -14,11 +14,12 @@ SkillCompetenceLevel "1..1" -- "1..*" Skill
 
 class Post{
  -id:integer
+ -godot_id:integer
+ -estragon_id:integer
  -title:String
- -slug:String
- -excerpt:String
+ -excerpt:Text
+ -body:Text
  -date:DateTime
- -body:String
 }
 
 class User {

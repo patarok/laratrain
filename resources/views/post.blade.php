@@ -42,9 +42,10 @@
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     <br>
-                                    {!! $postContent->body() !!}
+                                    <p>
+                                    {!! $postContent->body !!}</p>
                                     <br>
-                                    <small>{{ Carbon\Carbon::createFromTimestamp($postContent->date)->toDateString() }}
+                                    <small>{{ Carbon\Carbon::createFromTimestamp($postContent->created_at)->toDateString() }}
                                         <br></small>
 
                                 </div>
